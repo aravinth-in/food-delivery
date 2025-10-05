@@ -26,20 +26,20 @@ const addFood = async (req, res) => {
 const listFood = async (req, res) => {
     try {
         const foods = await foodModel.find({});
-        res.json({ success: true, data: foods});
+        res.json({ success: true, data: foods });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Some error occured" });
     }
 };
 
-const removeFood = async(req, res) => {
-     try {
+const removeFood = async (req, res) => {
+    try {
         const foodIdToDelete = req.params.id;
         const foodItem = await foodModel.findById(foodIdToDelete);
-        
+
         const imagePath = path.join(process.cwd(), 'uploads', foodItem.image);
-                fs.unlink(imagePath, (err) => {
+        fs.unlink(imagePath, (err) => {
             if (err) {
                 console.log("Error deleting file:", err);
             } else {
@@ -48,11 +48,11 @@ const removeFood = async(req, res) => {
         });
 
         const foodDeleted = await foodModel.findByIdAndDelete(foodIdToDelete);
-        res.json({ success: true, data: foodDeleted});
+        res.json({ success: true, data: foodDeleted, message: "Food item is deleted successfully" });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Some error occured" });
-    }   
+    }
 };
 
 export {
